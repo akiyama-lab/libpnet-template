@@ -100,21 +100,63 @@ fn handle_icmpv6_packet(interface_name: &str, source: IpAddr, destination: IpAdd
 // 
 //  fn handle_modbus_packet(interface_name: &str, source: IpAddr, destination: IpAddr, src_port: u16, dst_port: u16, packet: &[u8]) {
 //    let modbus = ModbusPacket::new(packet);
-//    ...
+//
+//    // Request/Response identification
+//    let packet_type = match (src_port, dst_port) {
+//     //  ...
+//    };
+//
+//    if let Some(modbus) = modbus {
+//        println!(
+//            "[{}]: Modbus Packet ({}): {}:{} > {}:{}; tid: {}, pid: {}, length: {}, uid: {}, func_code: {}, payload: {:?}",
+//            interface_name,
+//            packet_type,
+//            source,
+//            src_port,
+//            destination,
+//            dst_port,
+//            modbus.get_tid(),
+//            modbus.get_pid(),
+//            modbus.get_length(),
+//            modbus.get_uid(),
+//            modbus.get_function_code(),
+//            modbus.payload(),
+//            );
+//    } else {
+//        println!(
+//            "[{}]: TCP Packet (for Modbus) ({}): {}:{} > {}:{};",
+//            interface_name,
+//            packet_type,
+//            source,
+//            src_port,
+//            destination,
+//            dst_port,
+//            );
+//    }
 //  }
 
 fn handle_tcp_packet(interface_name: &str, source: IpAddr, destination: IpAddr, packet: &[u8]) {
     let tcp = TcpPacket::new(packet);
     if let Some(tcp) = tcp {
-        println!(
-            "[{}]: TCP Packet: {}:{} > {}:{}; length: {}",
-            interface_name,
-            source,
-            tcp.get_source(),
-            destination,
-            tcp.get_destination(),
-            packet.len()
-            );
+        // modbus handler example (extract modbus protocol)
+        // 
+        // match (tcp.get_source(), tcp.get_destination()) {
+        //    (_, XXXX) | (XXXX, _) => {
+        //        handle_modbus_packet(interface_name, source, destination, tcp.get_source(), tcp.get_destination(), tcp.payload())
+        //    }
+        //    (_, _) => {
+                println!(
+                    "[{}]: TCP Packet: {}:{} > {}:{}; length: {}",
+                    interface_name,
+                    source,
+                    tcp.get_source(),
+                    destination,
+                    tcp.get_destination(),
+                    packet.len()
+                    )
+        //    },
+        // }
+        }
     } else {
         println!("[{}]: Malformed TCP Packet", interface_name);
     }
