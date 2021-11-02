@@ -156,7 +156,7 @@ fn handle_tcp_packet(interface_name: &str, source: IpAddr, destination: IpAddr, 
                     )
         //    },
         // }
-        }
+        //}
     } else {
         println!("[{}]: Malformed TCP Packet", interface_name);
     }
