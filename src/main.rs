@@ -103,7 +103,9 @@ fn handle_icmpv6_packet(interface_name: &str, source: IpAddr, destination: IpAdd
 //
 //    // Request/Response identification
 //    let packet_type = match (src_port, dst_port) {
-//     //  ...
+//     // (_, XXXX) => "Request",
+//     // (XXXX, _) => "Response",
+//     // (_, _) => "unknown",
 //    };
 //
 //    if let Some(modbus) = modbus {
@@ -156,7 +158,6 @@ fn handle_tcp_packet(interface_name: &str, source: IpAddr, destination: IpAddr, 
                     )
         //    },
         // }
-        //}
     } else {
         println!("[{}]: Malformed TCP Packet", interface_name);
     }
